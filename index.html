@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Directive Resizer AngularJS</title>
+  <style>
+  .box {
+    background-color: blue;
+    width: 50px;
+    height: 50px;
+  }
+  .box.red {
+    background-color: red;
+  }
+  </style>
+</head>
+<body ng-app="app">
+
+  <div ng-controller="ctrl">
+
+    <div class="box" tg-resizer tg-resizer-width="800" tg-resizer-class="red"></div>
+
+  </div>
+
+  <script type="text/javascript" src="js/angular.min.js"></script>
+  <script type="text/javascript">
+
+  var app = angular.module('app',[]);
+
+  app.controller('ctrl', ['$scope', function($scope) {}]);
+
+  app.directive('tgResizer', ['$window', function ($window) {
+    return {
+      restrict: 'A',
+      link: function (scope, elem, attrs) {
+
+        resizeElem();
+
+        angular.element($window).on('resize', function () {
+          resizeElem();
+        });
+
+        function resizeElem() {
+          $window.innerWidth < attrs.tgResizerWidth ? elem.addClass(attrs.tgResizerClass) : elem.removeClass(attrs.tgResizerClass);
+        }
+
+      }
+    }
+  }]);
+
+  </script>
+</body>
+</html>
